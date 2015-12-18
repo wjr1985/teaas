@@ -5,6 +5,7 @@ Total Emojis as a Service (Teaas / TEAAS) is a lightweight library that wraps ar
 
 ## Requirements
 
+- Ruby 1.9.2 or higher
 - `rmagick` ~> 2.15.4. `rmagick` requires ImageMagick to be installed where this is running. Some free hosts (Heroku a notable example) have this installed already, while others may not. Additionally, the Ruby you're using needs to be able to compile C extensions.
 
 ### "Turbo"ing / Turboize

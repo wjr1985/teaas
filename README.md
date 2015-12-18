@@ -1,5 +1,5 @@
 # teaas
-![Build status](https://api.travis-ci.org/wjr1985/teaas.svg?branch=master)
+![Build status](https://api.travis-ci.org/wjr1985/teaas.svg?branch=master) [![Gem Version](https://badge.fury.io/rb/teaas.svg)](https://badge.fury.io/rb/teaas)
 ## Total Emojis as a Service
 
 Total Emojis as a Service (Teaas / TEAAS) is a lightweight library that wraps around [RMagick](https://github.com/rmagick/rmagick) and allows easy manipulation of emojis or emoji-like GIFs. Right now, it supports "Turbo"ing the emoji, or making it spin. This is a very early version, with more features and bug fixes to come in the future.

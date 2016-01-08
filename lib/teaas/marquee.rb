@@ -8,6 +8,7 @@ module Teaas
     def self.marquee(original_img)
       marquee_image = Magick::ImageList.new
       img = original_img.flatten_images
+      img.dispose = Magick::BackgroundDispose
       img.format = "gif"
 
       img_width = img.columns

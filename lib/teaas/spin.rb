@@ -8,6 +8,7 @@ module Teaas
     def self.spin(original_img)
       spinny_image = Magick::ImageList.new
       img = original_img.flatten_images
+      img.dispose = Magick::BackgroundDispose
       img.format = "gif"
 
       spinny_image << img

@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/wjr1985/teaas.svg?branch=master)](https://travis-ci.org/wjr1985/teaas) [![Gem Version](https://badge.fury.io/rb/teaas.svg)](https://badge.fury.io/rb/teaas)
 ## Total Emojis as a Service
 
-Total Emojis as a Service (Teaas / TEAAS) is a lightweight library that wraps around [RMagick](https://github.com/rmagick/rmagick) and allows easy manipulation of emojis or emoji-like GIFs. Right now, it supports "Turbo"ing the emoji, or making it spin. This is a very early version, with more features and bug fixes to come in the future.
+Total Emojis as a Service (Teaas / TEAAS) is a lightweight library that wraps around [RMagick](https://github.com/rmagick/rmagick) and allows easy manipulation of emojis or emoji-like GIFs. Right now, it supports "Turbo"ing the emoji, making it spin, or making a marquee. This is a very early version, with more features and bug fixes to come in the future.
 
 ## Requirements
 
@@ -20,6 +20,12 @@ Spinning an image just takes the image that is input and makes it spin clockwise
 **NOTE**: Spinning is buggy right now, and only works best on images that are square (32x32 for example). Images that are not square may return invalid results.
 
 **NOTE**: Spinning removes any transparency from the image.
+
+### Marquee (new!)
+
+Making an image a marquee involves taking a static image, and making intermediate images so that when the emojis are next to each other, they look like they're flowing together (like a marquee). It's best to try it out and see the results.
+
+**NOTE**: Marquee removes any transparency from the image.
 
 ## Documentation
 Docs are in [YARD](http://yardoc.org/) format. To build the HTML docs, just `gem install yard` then run `yard`. If you'd rather not use YARD, you can just read the documentation for the methods in the source files.
@@ -67,6 +73,27 @@ image = Magick::ImageList.new
 
 spin_result = Teaas::Spin.spin(image)
 final_result = Teaas::Turbo.turbo(spin_result, false)
+// final_result contains an array of image blobs
+```
+
+## Marquee
+### From a file
+```ruby
+image_path = "image.gif"
+
+marquee_result = Teaas::Marquee.marquee_from_file(image_path)
+final_result = Teaas::Turbo.turbo(marquee_result, false)
+// final_result contains an array of image blobs
+```
+
+### From a `Magick::ImageList`
+```ruby
+image = Magick::ImageList.new
+
+//populate image here
+
+marquee_result = Teaas::Marquee.marquee(image)
+final_result = Teaas::Turbo.turbo(marquee_result, false)
 // final_result contains an array of image blobs
 ```
 

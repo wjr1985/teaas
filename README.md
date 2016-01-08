@@ -27,6 +27,8 @@ Making an image a marquee involves taking a static image, and making intermediat
 
 **NOTE**: Marquee removes any transparency from the image.
 
+**NOTE**: Marquee does not work on all images right now. This initial version works best on small images that make sense to be converted into a marquee. Larger images might not work as expected.
+
 ## Documentation
 Docs are in [YARD](http://yardoc.org/) format. To build the HTML docs, just `gem install yard` then run `yard`. If you'd rather not use YARD, you can just read the documentation for the methods in the source files.
 

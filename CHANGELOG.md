@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 0.2.3
+* Fix test
+
 ## 0.2.2
 * Improve marquee image capability
 

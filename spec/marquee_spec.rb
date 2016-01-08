@@ -9,14 +9,16 @@ RSpec.describe Teaas::Marquee do
       flattened_static_image = static_image.flatten_images
       marquee_image = double()
 
+      static_image_width = static_image.columns
+
       expect(Magick::ImageList).to receive(:new).and_return(marquee_image)
 
       expect(static_image).to receive(:flatten_images).and_return(flattened_static_image)
 
-      expect(flattened_static_image).to receive(:roll).with(25, 0).and_call_original
-      expect(flattened_static_image).to receive(:roll).with(50, 0).and_call_original
-      expect(flattened_static_image).to receive(:roll).with(75, 0).and_call_original
-      expect(flattened_static_image).to receive(:roll).with(100, 0).and_call_original
+      expect(flattened_static_image).to receive(:roll).with(static_image.columns * 0.2, 0).and_call_original
+      expect(flattened_static_image).to receive(:roll).with(static_image.columns * 0.4, 0).and_call_original
+      expect(flattened_static_image).to receive(:roll).with(static_image.columns * 0.6, 0).and_call_original
+      expect(flattened_static_image).to receive(:roll).with(static_image.columns * 0.8, 0).and_call_original
 
       expect(marquee_image).to receive(:<<).exactly(5).times
 

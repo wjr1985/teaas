@@ -7,9 +7,7 @@ module Teaas
     # @return [Magick::ImageList] The marquee image
     def self.marquee(original_img)
       marquee_image = Magick::ImageList.new
-      img = original_img.flatten_images
-      img.dispose = Magick::BackgroundDispose
-      img.format = "gif"
+      img = Teaas::Helper.prepare_for_animation(original_img)
 
       img_width = img.columns
 

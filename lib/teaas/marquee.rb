@@ -3,7 +3,7 @@ module Teaas
 
     # Takes in an image, rolls it 20%, 40%, 60%, and 80%, then returns an animated marquee image. Best when used with {Teaas::Turboize.turbo} to generate multiple marquee speeds.
     #
-    # @param original_img [Magick::ImageList] The image to be created into a marquee
+    # @param original_img [Array] An array of [Magick::ImageList]s
     # @return [Magick::ImageList] The marquee image
     def self.marquee(original_img)
       if original_img[0].format == "GIF" && original_img.length > 1

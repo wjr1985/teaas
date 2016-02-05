@@ -4,6 +4,8 @@
 
 Total Emojis as a Service (Teaas / TEAAS) is a lightweight library that wraps around [RMagick](https://github.com/rmagick/rmagick) and allows easy manipulation of emojis or emoji-like GIFs. Right now, it supports "Turbo"ing the emoji, making it spin, or making a marquee. This is a very early version, with more features and bug fixes to come in the future.
 
+Version `1.0.0.bacon` and higher changes APIs from any prior versions, so make sure to check the documentation.
+
 ## Requirements
 
 - Ruby 1.9.2 or higher
@@ -15,7 +17,7 @@ Total Emojis as a Service (Teaas / TEAAS) is a lightweight library that wraps ar
 
 ### Spin
 
-Spinning an image just takes the image that is input and makes it spin clockwise. It was intended for static images, however it does support spinning the last frame on an animated GIF.
+Spinning an image just takes the image that is input and makes it spin clockwise. It was intended for static images, however it does support spinning a single frame of an animated GIF.
 
 **NOTE**: Spinning is buggy right now, and only works best on images that are square (32x32 for example). Images that are not square may return invalid results.
 
@@ -26,6 +28,8 @@ Spinning an image just takes the image that is input and makes it spin clockwise
 Making an image a marquee involves taking a static image, and making intermediate images so that when the emojis are next to each other, they look like they're flowing together (like a marquee). It's best to try it out and see the results.
 
 **NOTE**: Marquee removes any transparency from the image.
+
+**NOTE**: Marquee supports aniamted GIFs, however depending on the type of GIF, it may not work properly.
 
 ## Documentation
 Docs are in [YARD](http://yardoc.org/) format. To build the HTML docs, just `gem install yard` then run `yard`. If you'd rather not use YARD, you can just read the documentation for the methods in the source files.
@@ -88,9 +92,7 @@ final_result = Teaas::Turbo.turbo(marquee_result, false)
 
 ### From a `Magick::ImageList`
 ```ruby
-image = Magick::ImageList.new
-
-//populate image here
+image = Magick::Image.read("file.png")
 
 marquee_result = Teaas::Marquee.marquee(image)
 final_result = Teaas::Turbo.turbo(marquee_result, false)

@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'teaas'
-  s.version     = '0.2.3'
+  s.version     = '1.0.0.bacon'
   s.licenses    = ['MIT']
   s.summary     = "Total Emojis as a Service"
   s.description = "Gem to manipulate emoji-sized images"

@@ -1,6 +1,7 @@
 require 'base64'
 require 'rmagick'
 require_relative '../lib/teaas/helper'
+require_relative '../lib/teaas/intensify'
 require_relative '../lib/teaas/marquee'
 require_relative '../lib/teaas/spin'
 require_relative '../lib/teaas/turboize'

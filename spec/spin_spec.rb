@@ -13,6 +13,7 @@ RSpec.describe Teaas::Turboize do
 
       expect(static_image).to receive(:[]).and_return(flattened_static_image)
 
+      expect(flattened_static_image).to receive(:rotate).with(360).and_call_original
       expect(flattened_static_image).to receive(:rotate).with(90).and_call_original
       expect(flattened_static_image).to receive(:rotate).with(180).and_call_original
       expect(flattened_static_image).to receive(:rotate).with(270).and_call_original
@@ -30,7 +31,7 @@ RSpec.describe Teaas::Turboize do
 
       expect(Magick::ImageList).to receive(:new).and_return(image)
 
-      expect(Teaas::Spin).to receive(:spin).with(image)
+      expect(Teaas::Spin).to receive(:spin).with(image, {})
       Teaas::Spin.spin_from_file("hello.png")
     end
   end

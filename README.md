@@ -17,19 +17,25 @@ Version `1.0.0.bacon` and higher changes APIs from any prior versions, so make s
 
 ### Spin
 
-Spinning an image just takes the image that is input and makes it spin clockwise. It was intended for static images, however it does support spinning a single frame of an animated GIF.
+Spinning an image just takes the image that is input and makes it spin clockwise or counterclockwise. Additionally, it can now spin animated GIFs, as long as the option is selected. Otherwise, will spin a single frame of the GIF.
 
-**NOTE**: Spinning is buggy right now, and only works best on images that are square (32x32 for example). Images that are not square may return invalid results.
+**NOTE**: Spinning only works best on images that are square (32x32 for example). Images that are not square may return unexpected results.
 
 **NOTE**: Spinning removes any transparency from the image.
 
-### Marquee (new!)
+### Marquee
 
 Making an image a marquee involves taking a static image, and making intermediate images so that when the emojis are next to each other, they look like they're flowing together (like a marquee). It's best to try it out and see the results.
 
 **NOTE**: Marquee removes any transparency from the image.
 
 **NOTE**: Marquee supports aniamted GIFs, however depending on the type of GIF, it may not work properly.
+
+### Blood
+
+This overlays a blood animation over the image. Only works for static images, or a single frame of the GIF.
+
+**NOTE**: Blood removes any transparency from the image.
 
 ## Documentation
 Docs are in [YARD](http://yardoc.org/) format. To build the HTML docs, just `gem install yard` then run `yard`. If you'd rather not use YARD, you can just read the documentation for the methods in the source files.
@@ -95,6 +101,25 @@ final_result = Teaas::Turbo.turbo(marquee_result, false)
 image = Magick::Image.read("file.png")
 
 marquee_result = Teaas::Marquee.marquee(image)
+final_result = Teaas::Turbo.turbo(marquee_result, false)
+// final_result contains an array of image blobs
+```
+
+## Bloodify
+### From a file
+```ruby
+image_path = "image.gif"
+
+bloodify_result = Teaas::Blood.blood_from_file(image_path)
+final_result = Teaas::Turbo.turbo(blood_result, false)
+// final_result contains an array of image blobs
+```
+
+### From a `Magick::ImageList`
+```ruby
+image = Magick::Image.read("file.png")
+
+blood_result = Teaas::Blood.blood(image)
 final_result = Teaas::Turbo.turbo(marquee_result, false)
 // final_result contains an array of image blobs
 ```

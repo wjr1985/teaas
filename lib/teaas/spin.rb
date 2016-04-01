@@ -7,13 +7,14 @@ module Teaas
     # @return [Magick::ImageList] The spinning image
     def self.spin(original_img, options={})
       rotations = options[:rotations] ? options[:rotations] : 4
+      counterclockwise = options[:counterclockwise]
       spinny_image = Magick::ImageList.new
       img = Teaas::Helper.prepare_for_animation(original_img)
 
       increment = 360 / rotations
 
       rotations.times do |i|
-        temp_img = img.rotate(increment * (i+1)).crop(Magick::NorthWestGravity, original_img.columns, original_img.rows, true)
+        temp_img = img.rotate(_increment(increment, i, counterclockwise, rotations)).crop(Magick::NorthWestGravity, original_img.columns, original_img.rows, true)
         spinny_image << temp_img
       end
 
@@ -32,6 +33,14 @@ module Teaas
       img.read(path)[0]
 
       spin(img, options)
+    end
+
+    def self._increment(increment, i, counterclockwise, rotations)
+      if counterclockwise
+        increment * (rotations - (i+1))
+      else
+        increment * (i+1)
+      end
     end
   end
 end

@@ -9,7 +9,7 @@ module Teaas
       rotations = options[:rotations] ? options[:rotations] : 4
       counterclockwise = options[:counterclockwise]
 
-      if options[:animate]
+      if options[:animate] && original_img[0].format == "GIF"
         _spin_animated_image(original_img, rotations, counterclockwise)
       else
         _spin_static_image(original_img, rotations, counterclockwise)

@@ -10,6 +10,7 @@ RSpec.describe Teaas::Marquee do
 
       expect(Magick::ImageList).to receive(:new).and_return(marquee_image)
 
+      expect(static_image[0]).to receive(:roll).with(0, 0).and_call_original
       expect(static_image[0]).to receive(:roll).with(static_image.columns * 0.2, 0).and_call_original
       expect(static_image[0]).to receive(:roll).with(static_image.columns * 0.4, 0).and_call_original
       expect(static_image[0]).to receive(:roll).with(static_image.columns * 0.6, 0).and_call_original

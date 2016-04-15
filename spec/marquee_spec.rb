@@ -27,7 +27,7 @@ RSpec.describe Teaas::Marquee do
       image = Magick::Image.new(32, 32)
       expect(Magick::Image).to receive(:read).and_return(image)
 
-      expect(Teaas::Marquee).to receive(:marquee).with(image)
+      expect(Teaas::Marquee).to receive(:marquee).with(image, {})
       Teaas::Marquee.marquee_from_file("hello.png")
     end
   end

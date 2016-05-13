@@ -23,14 +23,14 @@ RSpec.describe Teaas::Turboize do
 
     it "uses default speeds when no speeds specified" do
       [2, 5, 10, 20, 30, 40].each do |i|
-        expect(Teaas::Turboize).to receive(:turboize_individual_image).with(@animated_image, i).and_call_original
+        expect(Teaas::Turboize).to receive(:turboize_individual_image).with(@animated_image, i, {}).and_call_original
       end
 
       Teaas::Turboize.turbo(@animated_image, false)
     end
     it "uses custom speeds when specified" do
       [1, 3, 100].each do |i|
-        expect(Teaas::Turboize).to receive(:turboize_individual_image).with(@animated_image, i).and_call_original
+        expect(Teaas::Turboize).to receive(:turboize_individual_image).with(@animated_image, i, {}).and_call_original
       end
 
       Teaas::Turboize.turbo(@animated_image, false, [1, 3, 100])

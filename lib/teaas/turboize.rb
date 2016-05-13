@@ -43,7 +43,7 @@ module Teaas
     # @param img [Magick::ImageList]
     # @param turbo [Integer] the ticks per second
     # @return [Magick::ImageList]
-    def self.turboize_individual_image(img, turbo, options)
+    def self.turboize_individual_image(img, turbo, options={})
       img.delay = options[:delay] || 1
       img.ticks_per_second = turbo
       img.iterations = 0

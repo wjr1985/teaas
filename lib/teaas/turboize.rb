@@ -7,7 +7,7 @@ module Teaas
     # @param resize [Integer or Falsey] The size of the largest dimension (eg. 32) for the image, or falsey if no resizing should occur
     # @param speeds [Array] An array of Integers that determines the ticks per second for the resulting animated image
     # @return [Array] An array of image blobs that match each specified speed
-    def self.turbo(img, resize, speeds=[2, 5, 10, 20, 30, 40])
+    def self.turbo(img, resize, speeds=[2, 5, 10, 20, 30, 40], options={})
       if resize
         img = img.coalesce
         img.each do |frame|
@@ -19,7 +19,7 @@ module Teaas
 
       image_blobs = []
       speeds.each do |turbo|
-        image_blobs << turboize_individual_image(img, turbo).to_blob
+        image_blobs << turboize_individual_image(img, turbo, options).to_blob
       end
 
       image_blobs
@@ -43,8 +43,8 @@ module Teaas
     # @param img [Magick::ImageList]
     # @param turbo [Integer] the ticks per second
     # @return [Magick::ImageList]
-    def self.turboize_individual_image(img, turbo)
-      img.delay = 1
+    def self.turboize_individual_image(img, turbo, options)
+      img.delay = options[:delay] || 1
       img.ticks_per_second = turbo
       img.iterations = 0
       img

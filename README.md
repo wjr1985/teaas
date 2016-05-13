@@ -37,6 +37,12 @@ This overlays a blood animation over the image. Only works for static images, or
 
 **NOTE**: Blood removes any transparency from the image.
 
+### Fire
+
+This overlays a fire animation over the image. Only works for static images, or a single frame of the GIF.
+
+**NOTE**: Fire removes any transparency from the image.
+
 ## Documentation
 Docs are in [YARD](http://yardoc.org/) format. To build the HTML docs, just `gem install yard` then run `yard`. If you'd rather not use YARD, you can just read the documentation for the methods in the source files.
 
@@ -120,6 +126,25 @@ final_result = Teaas::Turbo.turbo(blood_result, false)
 image = Magick::Image.read("file.png")
 
 blood_result = Teaas::Blood.blood(image)
+final_result = Teaas::Turbo.turbo(marquee_result, false)
+// final_result contains an array of image blobs
+```
+
+## Fireify
+### From a file
+```ruby
+image_path = "image.gif"
+
+fireify_result = Teaas::Fire.fire_from_file(image_path)
+final_result = Teaas::Turbo.turbo(fire_result, false)
+// final_result contains an array of image blobs
+```
+
+### From a `Magick::ImageList`
+```ruby
+image = Magick::Image.read("file.png")
+
+fire_result = Teaas::Fire.fire(image)
 final_result = Teaas::Turbo.turbo(marquee_result, false)
 // final_result contains an array of image blobs
 ```

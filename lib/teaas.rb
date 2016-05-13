@@ -1,9 +1,11 @@
 require 'rmagick'
 
 require 'teaas/blood.rb'
+require 'teaas/fire.rb'
 require 'teaas/helper.rb'
 require 'teaas/intensify.rb'
 require 'teaas/marquee.rb'
+require 'teaas/overlayer.rb'
 require 'teaas/pulse.rb'
 require 'teaas/spin.rb'
 require 'teaas/turboize.rb'

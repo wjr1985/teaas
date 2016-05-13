@@ -11,14 +11,14 @@ RSpec.describe Teaas::Turboize do
     it "does not resize when resize is false" do
       expect_any_instance_of(Magick::Image).to_not receive(:change_geometry)
 
-      Teaas::Turboize.turbo(@animated_image, false)
+      Teaas::Turboize.turbo(@animated_image, '')
     end
 
     it "resizes when resize is true" do
       pending("Need to figure out a way to allow all instances of Magick::Image to receive change_geometry, instead of just one instance")
       expect_any_instance_of(Magick::Image).to receive(:change_geometry).at_least(:once)
 
-      Teaas::Turboize.turbo(@animated_image, true)
+      Teaas::Turboize.turbo(@animated_image, "32x32")
     end
 
     it "uses default speeds when no speeds specified" do
@@ -26,14 +26,14 @@ RSpec.describe Teaas::Turboize do
         expect(Teaas::Turboize).to receive(:turboize_individual_image).with(@animated_image, i, {}).and_call_original
       end
 
-      Teaas::Turboize.turbo(@animated_image, false)
+      Teaas::Turboize.turbo(@animated_image, "")
     end
     it "uses custom speeds when specified" do
       [1, 3, 100].each do |i|
         expect(Teaas::Turboize).to receive(:turboize_individual_image).with(@animated_image, i, {}).and_call_original
       end
 
-      Teaas::Turboize.turbo(@animated_image, false, [1, 3, 100])
+      Teaas::Turboize.turbo(@animated_image, "", [1, 3, 100])
     end
   end
 
@@ -43,9 +43,9 @@ RSpec.describe Teaas::Turboize do
       expect(image).to receive(:read)
       expect(Magick::ImageList).to receive(:new).and_return(image)
 
-      expect(Teaas::Turboize).to receive(:turbo).with(image, false, [1, 2, 3, 4])
+      expect(Teaas::Turboize).to receive(:turbo).with(image, "", [1, 2, 3, 4], {})
 
-      Teaas::Turboize.turbo_from_file("hello.gif", false, [1, 2, 3, 4])
+      Teaas::Turboize.turbo_from_file("hello.gif", "", [1, 2, 3, 4])
     end
   end
 

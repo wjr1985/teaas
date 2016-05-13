@@ -8,11 +8,16 @@ module Teaas
     # @param speeds [Array] An array of Integers that determines the ticks per second for the resulting animated image
     # @return [Array] An array of image blobs that match each specified speed
     def self.turbo(img, resize, speeds=[2, 5, 10, 20, 30, 40], options={})
-      if resize
+      speeds = [2, 5, 10, 20, 30, 40] if speeds.nil?
+      if !resize.nil? && !resize.empty?
         img = img.coalesce
         img.each do |frame|
           frame.change_geometry(resize) do |cols, rows, i|
-            i.resize!(cols, rows)
+            if options[:sample]
+              i.sample!(cols, rows)
+            else
+              i.resize!(cols, rows)
+            end
           end
         end
       end
@@ -31,11 +36,11 @@ module Teaas
     # @param resize Truthy if the image should be resized, falsey or nil if it should not
     # @param speeds [Array] An array of Integers that determines the ticks per second for the resulting animated image
     # @return [Array] An array of image blobs that match each specified speed
-    def self.turbo_from_file(path, resize, speeds=[2, 5, 10, 20, 30, 40])
+    def self.turbo_from_file(path, resize, speeds=[2, 5, 10, 20, 30, 40], options={})
       img = Magick::ImageList.new
       img.read(path)
 
-      turbo(img, resize, speeds)
+      turbo(img, resize, speeds, options)
     end
 
     # Takes in a `Magick::ImageList` and adjusts the GIF image delay, ticks per second, and iterations.

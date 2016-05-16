@@ -10,15 +10,6 @@ module Teaas
     end
 
     def self.overlay_animated_on_animated(img, overlay_img)
-      puts "DATA DUMP"
-      puts img.delay
-      puts img.ticks_per_second
-      puts img.length
-      puts "*"*20
-      puts overlay_img.delay
-      puts overlay_img.ticks_per_second
-      puts overlay_img.length
-
       overlay_img.each do |image|
         image.resize_to_fit!(img.columns, img.rows)
       end

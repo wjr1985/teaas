@@ -2,6 +2,7 @@ module Teaas
   class Resize
     def self.resize(img, resize, options={})
       img = img.coalesce
+      resize = "#{img.columns}x#{img.rows}" if resize.nil? || resize.empty?
       img.each do |frame|
         frame.change_geometry(resize) do |cols, rows, i|
           if options[:sample]

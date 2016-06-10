@@ -39,7 +39,7 @@ module Teaas
       end
       image << img
 
-      image.gravity = Magick::CenterGravity
+      image.gravity = Magick::SouthGravity
       image = image.composite_layers(overlay_img)
 
       image

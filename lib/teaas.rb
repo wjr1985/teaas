@@ -9,6 +9,7 @@ require 'teaas/marquee.rb'
 require 'teaas/overlayer.rb'
 require 'teaas/parrotify.rb'
 require 'teaas/pulse.rb'
+require 'teaas/resize.rb'
 require 'teaas/spin.rb'
 require 'teaas/turboize.rb'
 

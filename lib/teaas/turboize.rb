@@ -10,16 +10,7 @@ module Teaas
     def self.turbo(img, resize, speeds=[2, 5, 10, 20, 30, 40], options={})
       speeds = [2, 5, 10, 20, 30, 40] if speeds.nil?
       if !resize.nil? && !resize.empty?
-        img = img.coalesce
-        img.each do |frame|
-          frame.change_geometry(resize) do |cols, rows, i|
-            if options[:sample]
-              i.sample!(cols, rows)
-            else
-              i.resize!(cols, rows)
-            end
-          end
-        end
+        img = Teaas::Resize.resize(img, resize, options)
       end
 
       image_blobs = []

@@ -18,7 +18,7 @@ RSpec.describe Teaas::Marquee do
 
       expect(marquee_image).to receive(:<<).exactly(5).times
 
-      Teaas::Marquee.marquee(static_image)
+      Teaas::Marquee.marquee(static_image, :horizontal => true)
     end
   end
 
@@ -27,8 +27,8 @@ RSpec.describe Teaas::Marquee do
       image = Magick::Image.new(32, 32)
       expect(Magick::Image).to receive(:read).and_return(image)
 
-      expect(Teaas::Marquee).to receive(:marquee).with(image, {})
-      Teaas::Marquee.marquee_from_file("hello.png")
+      expect(Teaas::Marquee).to receive(:marquee).with(image, {:horizontal => true})
+      Teaas::Marquee.marquee_from_file("hello.png", :horizontal => true)
     end
   end
 end

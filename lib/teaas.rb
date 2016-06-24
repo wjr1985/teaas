@@ -4,6 +4,7 @@ require 'teaas/blood.rb'
 require 'teaas/fire.rb'
 require 'teaas/got.rb'
 require 'teaas/helper.rb'
+require 'teaas/horizontal_roller.rb'
 require 'teaas/intensify.rb'
 require 'teaas/marquee.rb'
 require 'teaas/overlayer.rb'
@@ -12,6 +13,7 @@ require 'teaas/pulse.rb'
 require 'teaas/resize.rb'
 require 'teaas/spin.rb'
 require 'teaas/turboize.rb'
+require 'teaas/vertical_roller.rb'
 
 module Teaas
   def self.root

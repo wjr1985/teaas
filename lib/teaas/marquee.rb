@@ -25,12 +25,21 @@ module Teaas
 
     def self._marquee_animated_image(original_img, options)
       img_width = original_img[0].columns
+      img_height = original_img[0].rows
       frames = original_img.length
       marquee_image = Magick::ImageList.new
 
       original_img.each_with_index do |img, i|
         img.dispose = Magick::BackgroundDispose
-        marquee_image << _roll(img, :img_width => img_width, :frame => i, :total_frames => frames, :reverse => options[:reverse])
+        roller = _roller(options)
+        marquee_image << roller.roll(
+          img,
+          :img_width => img_width,
+          :img_height => img_height,
+          :frame => i,
+          :total_frames => frames,
+          :reverse => options[:reverse],
+        )
       end
 
       marquee_image
@@ -41,12 +50,29 @@ module Teaas
       img = Teaas::Helper.prepare_for_animation(original_img)
 
       img_width = img.columns
+      img_height = img.rows
 
       5.times do |i|
-        marquee_image << _roll(img, :img_width => img_width, :frame => i, :total_frames => 5, :reverse => options[:reverse])
+        roller = _roller(options)
+        marquee_image << roller.roll(
+          img,
+          :img_width => img_width,
+          :img_height => img_height,
+          :frame => i,
+          :total_frames => 5,
+          :reverse => options[:reverse],
+        )
       end
 
       marquee_image
+    end
+
+    def self._roller(options)
+      if options[:horizontal]
+        Teaas::HorizontalRoller
+      else
+        Teaas::VerticalRoller
+      end
     end
 
     def self._roll(img, options)

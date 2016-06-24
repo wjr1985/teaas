@@ -59,21 +59,11 @@ module Teaas
 
       img_width = img.columns
       img_height = img.rows
-      puts "b4"
-      puts "#{img_height} || #{img.rows}"
-      puts "#{img_width} || #{img.columns}"
-      puts "*"*80
-
 
       if (img_height > img_width) && options[:crop]
         img.crop_resized!(img_width, img_width, Magick::CenterGravity)
-        # img.crop_resized!(Magick::CenterGravity, img_width, img_width)
         img_height = img_width
       end
-
-      puts "After"
-      puts "#{img_height} || #{img.rows}"
-      puts "#{img_width} || #{img.columns}"
 
       5.times do |i|
         roller = _roller(options)

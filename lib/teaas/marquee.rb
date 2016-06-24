@@ -26,10 +26,18 @@ module Teaas
     def self._marquee_animated_image(original_img, options)
       img_width = original_img[0].columns
       img_height = original_img[0].rows
+      if img_height > img_width
+        crop = true && options[:crop]
+        img_height = img_width
+      else
+        crop = false
+      end
+
       frames = original_img.length
       marquee_image = Magick::ImageList.new
 
       original_img.each_with_index do |img, i|
+        img.crop!(Magick::CenterGravity, img_width, img_width) if crop
         img.dispose = Magick::BackgroundDispose
         roller = _roller(options)
         marquee_image << roller.roll(
@@ -51,6 +59,21 @@ module Teaas
 
       img_width = img.columns
       img_height = img.rows
+      puts "b4"
+      puts "#{img_height} || #{img.rows}"
+      puts "#{img_width} || #{img.columns}"
+      puts "*"*80
+
+
+      if (img_height > img_width) && options[:crop]
+        img.crop_resized!(img_width, img_width, Magick::CenterGravity)
+        # img.crop_resized!(Magick::CenterGravity, img_width, img_width)
+        img_height = img_width
+      end
+
+      puts "After"
+      puts "#{img_height} || #{img.rows}"
+      puts "#{img_width} || #{img.columns}"
 
       5.times do |i|
         roller = _roller(options)

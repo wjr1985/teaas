@@ -11,7 +11,7 @@ RSpec.describe Teaas::Turboize do
 
       expect(Magick::ImageList).to receive(:new).and_return(spinny_image)
 
-      expect(static_image).to receive(:[]).and_return(flattened_static_image)
+      expect(static_image).to receive(:[]).and_return(flattened_static_image).twice
 
       expect(flattened_static_image).to receive(:rotate).with(360).and_call_original
       expect(flattened_static_image).to receive(:rotate).with(90).and_call_original

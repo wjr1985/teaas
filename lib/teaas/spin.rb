@@ -9,7 +9,7 @@ module Teaas
       rotations = options[:rotations] ? options[:rotations] : 4
       counterclockwise = options[:counterclockwise]
 
-      if options[:animate] && original_img[0].format == "GIF"
+      if Helper.animated_gif?(original_img)
         _spin_animated_image(original_img, rotations, counterclockwise)
       else
         _spin_static_image(original_img, rotations, counterclockwise)
@@ -54,14 +54,18 @@ module Teaas
 
     def self._spin_animated_image(original_img, rotations, counterclockwise)
       frames = original_img.length
+      original_img_list = Magick::ImageList.new
+
+      original_img.each { |img| original_img_list << img }
+      original_img_list = original_img.coalesce
       spinny_image = Magick::ImageList.new
 
       increment = 360 / rotations
 
       rotations.times do |i|
-        original_img.each do |img|
+        original_img_list.each do |img|
           img.dispose = Magick::BackgroundDispose
-          temp_img = img.rotate(_increment(increment, i, counterclockwise, rotations)).crop(Magick::NorthWestGravity, original_img.columns, original_img.rows, true)
+          temp_img = img.rotate(_increment(increment, i, counterclockwise, rotations)).crop(Magick::NorthWestGravity, original_img_list.columns, original_img_list.rows, true)
           spinny_image << temp_img
         end
       end

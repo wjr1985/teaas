@@ -8,5 +8,9 @@ module Teaas
 
       new_img
     end
+
+    def self.animated_gif?(img)
+      img[0].format == "GIF" && img.length > 1
+    end
   end
 end

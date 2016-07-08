@@ -6,7 +6,7 @@ module Teaas
     # @param original_img [Array] An array of [Magick::ImageList]s
     # @return [Magick::ImageList] The marquee image
     def self.marquee(original_img, options = {})
-      if original_img[0].format == "GIF" && original_img.length > 1
+      if Helper.animated_gif?(original_img)
         _marquee_animated_image(original_img, options)
       else
         _marquee_static_image(original_img, options)
@@ -33,10 +33,15 @@ module Teaas
         crop = false
       end
 
+      original_img_list = Magick::ImageList.new
+      original_img.each { |img| original_img_list << img }
+
+      original_img_list = original_img_list.coalesce
+
       frames = original_img.length
       marquee_image = Magick::ImageList.new
 
-      original_img.each_with_index do |img, i|
+      original_img_list.each_with_index do |img, i|
         img.crop!(Magick::CenterGravity, img_width, img_width) if crop
         img.dispose = Magick::BackgroundDispose
         roller = _roller(options)

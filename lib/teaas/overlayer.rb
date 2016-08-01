@@ -4,7 +4,7 @@ module Teaas
       if options[:whitelisted_animation]
         overlay_animated_on_animated(original_img, overlay_img, options)
       else
-        overlay_animated_on_static(original_img, overlay_img)
+        overlay_animated_on_static(original_img, overlay_img, options={})
       end
 
     end

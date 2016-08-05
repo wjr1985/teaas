@@ -5,7 +5,7 @@ module Teaas
     # @param original_img [Magick::ImageList] The image to be rotated
     # @return [Magick::ImageList] The spinning image
     def self.no(original_img)
-      Overlayer.overlay(original_img, Magick::ImageList.new(Teaas.root + "/img/no.png"), :whitelisted_animation => true, :gravity => Magick::CenterGravity)
+      Overlayer.overlay(original_img, Magick::ImageList.new(Teaas.root + "/img/no.png"), :static_on_animated => true, :gravity => Magick::CenterGravity)
     end
 
     # Takes in a path to an image, and adds no to it. Best when used with {Teaas::Turboize.turbo} to generate multiple rotation speeds. This is a wrapper around {Teaas::Spin.spin}

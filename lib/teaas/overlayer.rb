@@ -3,10 +3,27 @@ module Teaas
     def self.overlay(original_img, overlay_img, options={})
       if options[:whitelisted_animation]
         overlay_animated_on_animated(original_img, overlay_img, options)
+      elsif options[:static_on_animated]
+        overlay_static_on_animated(original_img, overlay_img, options)
       else
         overlay_animated_on_static(original_img, overlay_img, options={})
       end
+    end
 
+    def self.overlay_static_on_animated(img, overlay_img, options)
+      overlay_resize = options[:overlay_resize] || 1
+      image = Magick::ImageList.new
+      overlay_img.each do |image|
+        image.resize_to_fit!(img.columns * overlay_resize, img.rows * overlay_resize)
+      end
+      gravity = options[:gravity] || Magick::SouthGravity
+
+      overlay_img.gravity = gravity
+      img.each do |i|
+        i.composite!(overlay_img, gravity, Magick::OverCompositeOp)
+      end
+
+      img
     end
 
     def self.overlay_animated_on_animated(img, overlay_img, options)

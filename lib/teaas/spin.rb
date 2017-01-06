@@ -38,7 +38,74 @@ module Teaas
       end
     end
 
+    def self._x_offset(img, longest_side)
+      if longest_side == img.rows
+        -((img.rows / 2) - (img.columns / 2))
+      else
+        0
+      end
+    end
+
+    def self._y_offset(img, longest_side)
+      if longest_side == img.columns
+        -((img.columns / 2) - (img.rows / 2))
+      else
+        0
+      end
+    end
+
     def self._spin_static_image(original_img, rotations, counterclockwise)
+      if rotations != 4
+        _spin_static_image_legacy(original_img, rotations, counterclockwise)
+      else
+        spinny_image = Magick::ImageList.new
+        img = Teaas::Helper.prepare_for_animation(original_img)
+        longest_side = img.rows > img.columns ? img.rows : img.columns
+
+        increment = 360 / rotations
+
+        rotations.times do |i|
+          rotated_img = img.rotate(_increment(increment, i, counterclockwise, rotations))
+
+          resized_img = rotated_img.extent(longest_side, longest_side, _x_offset(rotated_img, longest_side), _y_offset(rotated_img, longest_side))
+          spinny_image << resized_img
+        end
+
+        spinny_image
+      end
+    end
+
+    def self._spin_animated_image(original_img, rotations, counterclockwise)
+      if rotations != 4
+        _spin_animated_image_legacy(original_img, rotations, counterclockwise)
+      else
+        frames = original_img.length
+        longest_side = original_img[0].rows > original_img[0].columns ? original_img[0].rows : original_img[0].columns
+
+        original_img_list = Magick::ImageList.new
+        original_img.each { |img| original_img_list << img }
+        original_img_list = original_img.coalesce
+
+        spinny_image = Magick::ImageList.new
+
+        increment = 360 / rotations
+
+        rotations.times do |i|
+          original_img_list.each do |img|
+            img.background_color = "white"
+            img.dispose = Magick::BackgroundDispose
+            rotated_img = img.rotate(_increment(increment, i, counterclockwise, rotations))
+
+            resized_img = rotated_img.extent(longest_side, longest_side, _x_offset(rotated_img, longest_side), _y_offset(rotated_img, longest_side))
+            spinny_image << resized_img
+          end
+        end
+
+        spinny_image
+      end
+    end
+
+    def self._spin_static_image_legacy(original_img, rotations, counterclockwise)
       spinny_image = Magick::ImageList.new
       img = Teaas::Helper.prepare_for_animation(original_img)
 
@@ -52,7 +119,7 @@ module Teaas
       spinny_image
     end
 
-    def self._spin_animated_image(original_img, rotations, counterclockwise)
+    def self._spin_animated_image_legacy(original_img, rotations, counterclockwise)
       frames = original_img.length
       original_img_list = Magick::ImageList.new
 

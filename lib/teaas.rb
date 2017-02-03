@@ -18,6 +18,7 @@ require 'teaas/reverse.rb'
 require 'teaas/spin.rb'
 require 'teaas/turboize.rb'
 require 'teaas/vertical_roller.rb'
+require 'teaas/wait.rb'
 
 module Teaas
   def self.root

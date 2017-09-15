@@ -1,6 +1,7 @@
 require 'rmagick'
 
 require 'teaas/blood.rb'
+require 'teaas/dealwithit.rb'
 require 'teaas/fire.rb'
 require 'teaas/got.rb'
 require 'teaas/helper.rb'

@@ -1,6 +1,12 @@
 module Teaas
   class Resize
     def self.resize(img, resize, options={})
+      unless img.is_a?(Magick::ImageList)
+        original_img = img
+        img = Magick::ImageList.new
+        img << original_img
+      end
+
       img = img.coalesce
       resize = "#{img.columns}x#{img.rows}" if resize.nil? || resize.empty?
       img.each do |frame|

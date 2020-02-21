@@ -77,7 +77,7 @@ module Teaas
 
     def self._spin_animated_image(original_img, rotations, counterclockwise, options)
       if rotations != 4
-        _spin_animated_image_legacy(original_img, rotations, counterclockwise)
+        _spin_animated_image_legacy(original_img, rotations, counterclockwise, options)
       else
         longest_side = original_img[0].rows > original_img[0].columns ? original_img[0].rows : original_img[0].columns
 
@@ -118,7 +118,7 @@ module Teaas
       spinny_image
     end
 
-    def self._spin_animated_image_legacy(original_img, rotations, counterclockwise)
+    def self._spin_animated_image_legacy(original_img, rotations, counterclockwise, options)
       frames = original_img.length
       original_img_list = Magick::ImageList.new
 
@@ -131,6 +131,7 @@ module Teaas
       rotations.times do |i|
         original_img_list.each do |img|
           img.dispose = Magick::BackgroundDispose
+          img.background_color = options[:force_transparency] ? "transparent" : "white"
           temp_img = img.rotate(_increment(increment, i, counterclockwise, rotations)).crop(Magick::NorthWestGravity, original_img_list.columns, original_img_list.rows, true)
           spinny_image << temp_img
         end

@@ -10,7 +10,7 @@ module Teaas
       counterclockwise = options[:counterclockwise]
 
       if Helper.animated_gif?(original_img)
-        _spin_animated_image(original_img, rotations, counterclockwise)
+        _spin_animated_image(original_img, rotations, counterclockwise, options)
       else
         _spin_static_image(original_img, rotations, counterclockwise)
       end
@@ -75,11 +75,10 @@ module Teaas
       end
     end
 
-    def self._spin_animated_image(original_img, rotations, counterclockwise)
+    def self._spin_animated_image(original_img, rotations, counterclockwise, options)
       if rotations != 4
         _spin_animated_image_legacy(original_img, rotations, counterclockwise)
       else
-        frames = original_img.length
         longest_side = original_img[0].rows > original_img[0].columns ? original_img[0].rows : original_img[0].columns
 
         original_img_list = Magick::ImageList.new
@@ -92,7 +91,7 @@ module Teaas
 
         rotations.times do |i|
           original_img_list.each do |img|
-            img.background_color = "white"
+            img.background_color = options[:force_transparency] ? "transparent" : "white"
             img.dispose = Magick::BackgroundDispose
             rotated_img = img.rotate(_increment(increment, i, counterclockwise, rotations))
 

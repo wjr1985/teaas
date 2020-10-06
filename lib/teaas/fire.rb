@@ -4,7 +4,7 @@ module Teaas
     #
     # @param original_img [Magick::ImageList] The image to be engufled in flames
     # @return [Magick::ImageList] The image, now on fire
-    def self.fire(original_img)
+    def self.fire(original_img, options={})
       Overlayer.overlay(original_img, Magick::ImageList.new(Teaas.root + "/img/fire.gif"))
     end
 
@@ -12,7 +12,7 @@ module Teaas
     #
     # @param path [String] Path to the image to be engulfed in flames
     # @return [Magick::ImageList] The image, now on fire
-    def self.fire_from_file(path)
+    def self.fire_from_file(path, options={})
       img = Magick::ImageList.new
 
       # Grab the first element in array to prevent strange things when an

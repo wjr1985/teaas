@@ -15,8 +15,7 @@ module Teaas
     #
     # @param original_img [Array] An array of [Magick::ImageList]s
     # @return [Magick::ImageList] The intensified image
-    def self.intensify(original_img)
-      intensifty_image = Magick::ImageList.new
+    def self.intensify(original_img, options={})
       img = Teaas::Helper.prepare_for_animation(original_img)
       final_img = Magick::Image.new(img.columns, img.rows)
       final_img.format = "gif"
@@ -37,10 +36,10 @@ module Teaas
     #
     # @param path [String] Path to the image to be created to an intensified image
     # @return [Magick::ImageList] The intensified image
-    def self.intensify_from_file(path)
+    def self.intensify_from_file(path, options={})
       img = Magick::Image.read(path)
 
-      intensify(img)
+      intensify(img, options)
     end
   end
 end

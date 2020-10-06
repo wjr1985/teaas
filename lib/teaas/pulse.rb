@@ -5,7 +5,7 @@ module Teaas
     #
     # @param original_img [Magick::ImageList] The image to be rotated
     # @return [Magick::ImageList] The pulsing image
-    def self.pulse(original_img)
+    def self.pulse(original_img, options={})
       pulsing_image = Magick::ImageList.new
       img = Teaas::Helper.prepare_for_animation(original_img)
 
@@ -22,7 +22,7 @@ module Teaas
     #
     # @param path [String] Path to the image to be spun
     # @return [Magick::ImageList] The pulsing image
-    def self.pulse_from_file(path)
+    def self.pulse_from_file(path, options={})
       img = Magick::ImageList.new
 
       # Grab the first element in array to prevent strange things when an

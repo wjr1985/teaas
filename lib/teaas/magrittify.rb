@@ -4,7 +4,7 @@ module Teaas
     #
     # @param original_img [Magick::ImageList] The image
     # @return [Magick::ImageList] The new image
-    def self.magrittify(original_img)
+    def self.magrittify(original_img, options={})
       Overlayer.overlay(
         original_img,
         Magick::ImageList.new(Teaas.root + "/img/greenapple.png"),
@@ -18,7 +18,7 @@ module Teaas
     #
     # @param path [String] Path to the image
     # @return [Magick::ImageList] The new image
-    def self.magrittify_from_file(path)
+    def self.magrittify_from_file(path, options={})
       img = Magick::ImageList.new
 
       # Grab the first element in array to prevent strange things when an

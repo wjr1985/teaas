@@ -4,7 +4,7 @@ module Teaas
     #
     # @param original_img [Magick::ImageList] The image to be rotated
     # @return [Magick::ImageList] The spinning image
-    def self.think(original_img)
+    def self.think(original_img, options={})
       Overlayer.overlay(original_img, Magick::ImageList.new(Teaas.root + "/img/thinking.png"), :static_on_animated => true, :gravity => Magick::SouthWestGravity)
     end
 
@@ -12,7 +12,7 @@ module Teaas
     #
     # @param path [String] Path to the image to be spun
     # @return [Magick::ImageList] The spinning image
-    def self.think_from_file(path)
+    def self.think_from_file(path, options={})
       img = Magick::ImageList.new
 
       # Grab the first element in array to prevent strange things when an

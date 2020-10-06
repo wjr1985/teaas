@@ -18,7 +18,7 @@ module Teaas
     #
     # @param original_img [Array] An array of [Magick::ImageList]s
     # @return [Magick::ImageList] The parrotified image
-    def self.parrotify(original_img)
+    def self.parrotify(original_img, options={})
       parrotify_image = Magick::ImageList.new
       img = Teaas::Helper.prepare_for_animation(original_img)
       width = img.columns
@@ -40,7 +40,7 @@ module Teaas
     #
     # @param path [String] Path to the image to be created to an parrotified image
     # @return [Magick::ImageList] The parrotified image
-    def self.parrotify_from_file(path)
+    def self.parrotify_from_file(path, options={})
       img = Magick::Image.read(path)
 
       parrotify(img)

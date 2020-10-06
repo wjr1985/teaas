@@ -4,7 +4,7 @@ module Teaas
     #
     # @param original_img [Magick::ImageList]
     # @return [Magick::ImageList]
-    def self.shake_fist(original_img)
+    def self.shake_fist(original_img, options={})
       Overlayer.overlay(original_img, Magick::ImageList.new(Teaas.root + "/img/shake_fist.gif"))
     end
 
@@ -12,14 +12,14 @@ module Teaas
     #
     # @param path [String]
     # @return [Magick::ImageList]
-    def self.shake_fist_from_file(path)
+    def self.shake_fist_from_file(path, options={})
       img = Magick::ImageList.new
 
       # Grab the first element in array to prevent strange things when an
       # animated image is submitted
       img.read(path)[0]
 
-      shake_fist(img)
+      shake_fist(img, options)
     end
   end
 end

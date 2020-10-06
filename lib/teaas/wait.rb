@@ -4,7 +4,7 @@ module Teaas
     #
     # @param original_img [Magick::ImageList]
     # @return [Magick::ImageList]
-    def self.wait(original_img)
+    def self.wait(original_img, options={})
       Overlayer.overlay(original_img, Magick::ImageList.new(Teaas.root + "/img/wait.gif"))
     end
 
@@ -12,7 +12,7 @@ module Teaas
     #
     # @param path [String]
     # @return [Magick::ImageList]
-    def self.wait_from_file(path)
+    def self.wait_from_file(path, options={})
       img = Magick::ImageList.new
 
       # Grab the first element in array to prevent strange things when an

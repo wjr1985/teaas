@@ -12,7 +12,7 @@ module Teaas
     #
     # @param path [String] Path to the image to be engulfed in flames
     # @return [Magick::ImageList] The image, now on fire
-    def self.fire_from_file(path, options={})
+    def self.heart_from_file(path, options={})
       img = Magick::ImageList.new
 
       # Grab the first element in array to prevent strange things when an

@@ -9,6 +9,6 @@ Gem::Specification.new do |s|
   s.files       = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   s.homepage    = 'https://www.github.com/wjr1985/teaas/'
 
-  s.add_runtime_dependency 'rmagick', '~> 2.15'
+  s.add_runtime_dependency 'rmagick', '~> 4.3'
   s.add_development_dependency 'rspec', '~> 3.4'
 end

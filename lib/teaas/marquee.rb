@@ -66,7 +66,7 @@ module Teaas
       img_height = img.rows
 
       if (img_height > img_width) && options[:crop]
-        img.crop_resized!(img_width, img_width, Magick::CenterGravity)
+        img.resize_to_fill!(img_width, img_width, Magick::CenterGravity)
         img_height = img_width
       end
 

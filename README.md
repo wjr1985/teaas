@@ -8,8 +8,8 @@ Version `1.0.0.bacon` and higher changes APIs from any prior versions, so make s
 
 ## Requirements
 
-- Ruby 2.0.0 or higher (Ruby 1.9.3 may still work but is not guaranteed)
-- `rmagick` ~> 2.15.4. `rmagick` requires ImageMagick to be installed where this is running. Some free hosts (Heroku a notable example) have this installed already, while others may not. Additionally, the Ruby you're using needs to be able to compile C extensions.
+- Ruby 3.3 or higher
+- `rmagick` ~> 6.1. `rmagick` requires ImageMagick to be installed where this is running. Some free hosts (Heroku a notable example) have this installed already, while others may not. Additionally, the Ruby you're using needs to be able to compile C extensions.
 
 ## Documentation
 Docs are in [YARD](http://yardoc.org/) format. To build the HTML docs, just `gem install yard` then run `yard`. If you'd rather not use YARD, you can just read the documentation for the methods in the source files.

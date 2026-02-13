@@ -1,38 +1,54 @@
 require 'spec_helper'
 
-RSpec.describe Teaas::Turboize do
+RSpec.describe Teaas::Spin do
   describe "#spin" do
-    it "rotates the image" do
-      static_image = Magick::ImageList.new
+    context "with static input" do
+      let(:input) { TestImageFactory.create_static_image(16, 16) }
+      let(:result) { Teaas::Spin.spin(input) }
 
-      static_image.from_blob(Base64.decode64("iVBORw0KGgoAAAANSUhEUgAAACAAAAAgAQAAAABbAUdZAAAABGdBTUEAALGP\nC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3Cc\nulE8AAAAAmJLR0QAAd2KE6QAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElN\nRQfgAgUQIQbuVAHWAAAAD0lEQVQI12P4DwQMg5cAANrpf4GXVFCUAAAAJXRF\nWHRkYXRlOmNyZWF0ZQAyMDE2LTAyLTA1VDE2OjMzOjA2LTA2OjAw2bi0+gAA\nACV0RVh0ZGF0ZTptb2RpZnkAMjAxNi0wMi0wNVQxNjozMzowNi0wNjowMKjl\nDEYAAAAASUVORK5CYII=\n"))
-      flattened_static_image = static_image.flatten_images
-      spinny_image = double()
+      it_behaves_like "a transform effect on static input", 4 do
+        let(:result) { Teaas::Spin.spin(input) }
+      end
 
-      expect(Magick::ImageList).to receive(:new).and_return(spinny_image)
+      it "produces square frames based on the longest side" do
+        tall = TestImageFactory.create_tall_image(16, 32)
+        r = Teaas::Spin.spin(tall)
+        expect(r[0].columns).to eq(32)
+        expect(r[0].rows).to eq(32)
+      end
+    end
 
-      expect(static_image).to receive(:[]).and_return(flattened_static_image).twice
+    context "with animated input" do
+      let(:input) { TestImageFactory.create_animated_image(16, 16, 3) }
+      let(:result) { Teaas::Spin.spin(input) }
 
-      expect(flattened_static_image).to receive(:rotate).with(360).and_call_original
-      expect(flattened_static_image).to receive(:rotate).with(90).and_call_original
-      expect(flattened_static_image).to receive(:rotate).with(180).and_call_original
-      expect(flattened_static_image).to receive(:rotate).with(270).and_call_original
+      it "produces frames * rotations frames" do
+        expect(result.length).to eq(12)
+      end
 
-      expect(spinny_image).to receive(:<<).exactly(4).times
+      it "returns an ImageList" do
+        expect(result).to be_a(Magick::ImageList)
+      end
+    end
 
-      Teaas::Spin.spin(static_image)
+    context "with custom rotations" do
+      let(:input) { TestImageFactory.create_static_image(16, 16) }
+
+      it "uses legacy path and produces the specified number of frames" do
+        result = Teaas::Spin.spin(input, rotations: 6)
+        expect(result.length).to eq(6)
+      end
+    end
+
+    context "with counterclockwise option" do
+      let(:input) { TestImageFactory.create_static_image(16, 16) }
+
+      it "still produces 4 frames" do
+        result = Teaas::Spin.spin(input, counterclockwise: true)
+        expect(result.length).to eq(4)
+      end
     end
   end
 
-  describe("#spin_from_file") do
-    it "calls spin with image" do
-      image = double()
-      expect(image).to receive(:read).and_return([Magick::Image.new(32, 32)])
-
-      expect(Magick::ImageList).to receive(:new).and_return(image)
-
-      expect(Teaas::Spin).to receive(:spin).with(image, {})
-      Teaas::Spin.spin_from_file("hello.png")
-    end
-  end
+  it_behaves_like "a from_file wrapper (ImageList pattern)", Teaas::Spin, :spin, :spin_from_file
 end

@@ -2,33 +2,60 @@ require 'spec_helper'
 
 RSpec.describe Teaas::Marquee do
   describe "#marquee" do
-    it "generates a marquee image" do
-      static_image = Magick::ImageList.new
+    context "with static input" do
+      let(:input) { TestImageFactory.create_static_image(16, 16) }
 
-      static_image.from_blob(Base64.decode64("iVBORw0KGgoAAAANSUhEUgAAACAAAAAgAQAAAABbAUdZAAAABGdBTUEAALGP\nC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3Cc\nulE8AAAAAmJLR0QAAd2KE6QAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElN\nRQfgAgUQIQbuVAHWAAAAD0lEQVQI12P4DwQMg5cAANrpf4GXVFCUAAAAJXRF\nWHRkYXRlOmNyZWF0ZQAyMDE2LTAyLTA1VDE2OjMzOjA2LTA2OjAw2bi0+gAA\nACV0RVh0ZGF0ZTptb2RpZnkAMjAxNi0wMi0wNVQxNjozMzowNi0wNjowMKjl\nDEYAAAAASUVORK5CYII=\n"))
-      marquee_image = double()
+      it "produces 5 frames" do
+        result = Teaas::Marquee.marquee(input)
+        expect(result.length).to eq(5)
+      end
 
-      expect(Magick::ImageList).to receive(:new).and_return(marquee_image)
+      it "returns an ImageList" do
+        result = Teaas::Marquee.marquee(input)
+        expect(result).to be_a(Magick::ImageList)
+      end
 
-      expect(static_image[0]).to receive(:roll).with(0, 0).and_call_original
-      expect(static_image[0]).to receive(:roll).with(static_image.columns * 0.2, 0).and_call_original
-      expect(static_image[0]).to receive(:roll).with(static_image.columns * 0.4, 0).and_call_original
-      expect(static_image[0]).to receive(:roll).with(static_image.columns * 0.6, 0).and_call_original
-      expect(static_image[0]).to receive(:roll).with(static_image.columns * 0.8, 0).and_call_original
+      it "preserves dimensions" do
+        result = Teaas::Marquee.marquee(input)
+        expect(result[0].columns).to eq(16)
+        expect(result[0].rows).to eq(16)
+      end
 
-      expect(marquee_image).to receive(:<<).exactly(5).times
+      it "uses vertical roller by default" do
+        expect(Teaas::VerticalRoller).to receive(:roll).exactly(5).times.and_call_original
+        Teaas::Marquee.marquee(input)
+      end
 
-      Teaas::Marquee.marquee(static_image, :horizontal => true)
+      it "uses horizontal roller when option is set" do
+        expect(Teaas::HorizontalRoller).to receive(:roll).exactly(5).times.and_call_original
+        Teaas::Marquee.marquee(input, horizontal: true)
+      end
+    end
+
+    context "with animated input" do
+      let(:input) { TestImageFactory.create_animated_image(16, 16, 3) }
+
+      it "preserves the frame count from the animated image" do
+        result = Teaas::Marquee.marquee(input)
+        expect(result.length).to eq(3)
+      end
+
+      it "returns an ImageList" do
+        result = Teaas::Marquee.marquee(input)
+        expect(result).to be_a(Magick::ImageList)
+      end
+    end
+
+    context "with crop option on tall image" do
+      let(:input) { TestImageFactory.create_tall_image(16, 32) }
+
+      it "crops to square when crop is true" do
+        result = Teaas::Marquee.marquee(input, crop: true)
+        expect(result[0].columns).to eq(16)
+        expect(result[0].rows).to eq(16)
+      end
     end
   end
 
-  describe("#marquee_from_file") do
-    it "calls marquee with image" do
-      image = Magick::Image.new(32, 32)
-      expect(Magick::Image).to receive(:read).and_return(image)
-
-      expect(Teaas::Marquee).to receive(:marquee).with(image, {:horizontal => true})
-      Teaas::Marquee.marquee_from_file("hello.png", :horizontal => true)
-    end
-  end
+  it_behaves_like "a from_file wrapper (Image.read pattern)", Teaas::Marquee, :marquee, :marquee_from_file
 end
